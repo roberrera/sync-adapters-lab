@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String ACCOUNT = "default_account";
 
     Account mAccount;
-    Button mSyncButton;
     ContentResolver mResolver;
 
     @Override
@@ -92,6 +91,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return newAccount;
-    }
     }
 }
