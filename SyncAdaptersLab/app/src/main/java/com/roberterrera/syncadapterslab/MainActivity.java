@@ -14,7 +14,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private static final String AUTHORITY = "com.roberterrera.syncadapterslab.StubProvider";
-    private static final String ACCOUNT_TYPE = "example.com";
+    private static final String ACCOUNT_TYPE = "roberterrera.com";
     private static final String ACCOUNT = "default_account";
 
     Account mAccount;
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAccount = createSyncAccount(this);
+        mResolver = getContentResolver();
 
         Button manualSyncButton = (Button) findViewById(R.id.manual_button);
         manualSyncButton.setOnClickListener(new View.OnClickListener() {
@@ -34,7 +35,14 @@ public class MainActivity extends AppCompatActivity {
                 Bundle settingsBundle = new Bundle();
                 settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
                 settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+<<<<<<< HEAD
                 ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+=======
+                mResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+                Log.d("MainActivity", "Gets here");
+
+                Toast.makeText(MainActivity.this, "Method complete.", Toast.LENGTH_SHORT).show();
+>>>>>>> d724924a8a03ca6a496f8c46020fc24c17362cec
             }
         });
 
@@ -43,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         twoMinSyncButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContentResolver.setSyncAutomatically(mAccount, AUTHORITY, true);
-                ContentResolver.addPeriodicSync(
+                mResolver.setSyncAutomatically(mAccount, AUTHORITY, true);
+                mResolver.addPeriodicSync(
                         mAccount,
                         AUTHORITY,
                         Bundle.EMPTY,
@@ -56,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
         fiveMinSyncButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContentResolver.setSyncAutomatically(mAccount, AUTHORITY, true);
-                ContentResolver.addPeriodicSync(
+                mResolver.setSyncAutomatically(mAccount, AUTHORITY, true);
+                mResolver.addPeriodicSync(
                         mAccount,
                         AUTHORITY,
                         Bundle.EMPTY,
