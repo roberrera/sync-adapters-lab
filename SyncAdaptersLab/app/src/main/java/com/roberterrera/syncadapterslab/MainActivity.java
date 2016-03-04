@@ -35,14 +35,8 @@ public class MainActivity extends AppCompatActivity {
                 Bundle settingsBundle = new Bundle();
                 settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
                 settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-<<<<<<< HEAD
-                ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
-=======
                 mResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
-                Log.d("MainActivity", "Gets here");
-
-                Toast.makeText(MainActivity.this, "Method complete.", Toast.LENGTH_SHORT).show();
->>>>>>> d724924a8a03ca6a496f8c46020fc24c17362cec
+                Toast.makeText(MainActivity.this, "Syncing...", Toast.LENGTH_SHORT).show();
             }
         });
 
