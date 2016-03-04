@@ -25,6 +25,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter{
     ContentResolver mContentResolver;
 
     private static final String TAG = SyncAdapter.class.getCanonicalName();
+    private String bankofAmericaURL = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=BAC&symbol=BBY&callback=myFunction";
+    private String bestBuyURL = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=BBY&symbol=BBY&callback=myFunction";
+    private String yahooURL = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=YHOO&symbol=BBY&callback=myFunction";
+    private String twitterURL = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=TWTR&symbol=BBY&callback=myFunction";
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -38,82 +42,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter{
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        String data = " ";
-        URL url = null;
-        try {
-            //TODO:BANK OF AMERICA
-            url = new URL("http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=BAC&symbol=BBY&callback=myFunction");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = connection.getInputStream();
-            data = getInputData(inputStream);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
-        Gson gson = new Gson();
-        StockItem results = gson.fromJson(data, StockItem.class);
-        String title = results.getResults().get(0).getTitle();
-        Log.d(TAG, title);
-
-        try {
-            //TODO:BEST BUY
-            url = new URL("http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=BBY&symbol=BBY&callback=myFunction");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = connection.getInputStream();
-            data = getInputData(inputStream);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
-        Gson gson = new Gson();
-        StockItem results = gson.fromJson(data, StockItem.class);
-        Log.d(TAG, title);
-
-        try {
-            //TODO:YAHOO
-            url = new URL("http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=YHOO&symbol=BBY&callback=myFunction");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = connection.getInputStream();
-            data = getInputData(inputStream);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
-        Gson gson = new Gson();
-        StockItem results = gson.fromJson(data, StockItem.class);
-        Log.d(TAG, title);
-
-        try {
-            //TODO:SQUARE
-            url = new URL("http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=SQ&symbol=BBY&callback=myFunction");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = connection.getInputStream();
-            data = getInputData(inputStream);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
-        Gson gson = new Gson();
-        StockItem results = gson.fromJson(data, StockItem.class);
-        Log.d(TAG, title);
-
-        try {
-            //TODO:TWITTER
-            url = new URL("http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=TWTR&symbol=BBY&callback=myFunction");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = connection.getInputStream();
-            data = getInputData(inputStream);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
-        Gson gson = new Gson();
-        StockItem results = gson.fromJson(data, StockItem.class);
-        Log.d(TAG, title);
+        getStock(bankofAmericaURL);
+        getStock(bestBuyURL);
+        getStock(yahooURL);
+        getStock(twitterURL);
     }
 
 
+    private void getStock(String stockUrl){
+        String data = " ";
+        try {
+            URL url = new URL(stockUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            InputStream inputStream = connection.getInputStream();
+            data = getInputData(inputStream);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
 
+        Gson gson = new Gson();
+        SearchResults results = gson.fromJson(data, SearchResults.class);
+        String title = results.getResults().get(0).getName();
+        String price = results.getResults().get(0).getLastPrice();
+        Log.d(TAG, title + " , $" + price);
+    }
 
     private String getInputData(InputStream inStream) throws IOException {
         StringBuilder builder = new StringBuilder();
