@@ -42,6 +42,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter{
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+        Log.d(TAG, "Gets to onPerformSync");
         getStock(bankofAmericaURL);
         getStock(bestBuyURL);
         getStock(yahooURL);
@@ -50,6 +51,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter{
 
 
     private void getStock(String stockUrl){
+        Log.d("SYNCADAPTER", "Test");
         String data = " ";
         try {
             URL url = new URL(stockUrl);

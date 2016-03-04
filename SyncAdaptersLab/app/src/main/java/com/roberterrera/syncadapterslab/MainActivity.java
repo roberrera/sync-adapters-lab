@@ -31,14 +31,10 @@ public class MainActivity extends AppCompatActivity {
         manualSyncButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Manual sync pressed", Toast.LENGTH_SHORT).show();
                 Bundle settingsBundle = new Bundle();
                 settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
                 settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
                 ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
-                Log.d("MainActivity", "Gets here");
-
-                Toast.makeText(MainActivity.this, "Method complete.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -75,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
         Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
         AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
 
-        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
-        } else {}
+//        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+//        } else {}
 
         return newAccount;
     }

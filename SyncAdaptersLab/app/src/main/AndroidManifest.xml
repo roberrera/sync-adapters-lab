@@ -3,6 +3,7 @@
     package="com.roberterrera.syncadapterslab" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
@@ -22,6 +23,24 @@
         </activity>
 
         <service
+            android:name="com.roberterrera.syncadapterslab.PlaceholderAuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+
+        <provider
+            android:name="com.roberterrera.syncadapterslab.StubProvider"
+            android:authorities="ly.generalassemb.drewmahrt.syncadapterexample.StubProvider"
+            android:label="my provider"
+            android:exported="false"
+            android:syncable="true"/>
+
+        <service
             android:name="com.roberterrera.syncadapterslab.MySyncService">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
@@ -30,6 +49,7 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
+
 
     </application>
 
